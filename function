@@ -1,0 +1,31 @@
+CREATE OR REPLACE FUNCTION find_difference (s VARCHAR2, t VARCHAR2) RETURN VARCHAR2 IS
+	i NUMBER := 1;
+	j NUMBER := 1;
+	added_char VARCHAR2(1);	
+BEGIN
+	WHILE i <= LENGTH(s) AND j <= LENGTH(t)
+	LOOP 
+		IF SUBSTR(s,i,1) = SUBSTR(t,j,1) THEN
+		i := i +1;
+		j := j +1;
+		ELSE	
+			added_char := SUBSTR(t, j, 1);
+			RETURN added_char;
+		END IF;
+	END LOOP;
+
+	IF j = LENGTH(t) THEN
+        added_char := SUBSTR(t, j, 1);
+        RETURN added_char;
+	END IF;
+
+END;
+/
+DECLARE
+	s VARCHAR2(100) := 'abcd';
+	t VARCHAR2(100) := 'abcde';
+	added_char VARCHAR2(1);
+BEGIN 
+	added_char := find_difference(s, t);
+	DBMS_OUTPUT.PUT_LINE('Added char is : ' || added_char);
+END;
